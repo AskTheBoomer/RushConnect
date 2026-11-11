@@ -111,6 +111,12 @@ npm run check:access
 
 Every line should say PASS.
 
+## Owner login
+
+`/login` is the owner login and `/admin` is the owner portal. Logged-out
+visitors who open `/admin` are sent to `/login`. Only an account listed in the
+`admins` table can see portal data. The full portal is built in Sprint 3.
+
 ## Project layout
 
 ```
