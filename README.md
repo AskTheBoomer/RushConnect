@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rush Connect
 
-## Getting Started
+Website and owner portal for Evelyn Rush Solutions, built by Team Alpha for the
+CSC480 capstone.
 
-First, run the development server:
+- **Stack:** Next.js (App Router, TypeScript, Tailwind), Supabase (database,
+  auth, file storage), Vercel (hosting)
+- **Board:** GitHub Projects for this repo
+- **Chat:** Team Alpha Discord
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Getting set up
+
+You need [Node.js](https://nodejs.org) 20 or newer (the LTS download is fine)
+and git.
+
+1. Clone the repo and install packages:
+
+   ```bash
+   git clone https://github.com/AskTheBoomer/RushConnect.git
+   cd RushConnect
+   npm install
+   ```
+
+2. Create your local environment file:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   Fill in the two Supabase values. Bryan will share them privately; they are
+   also in Supabase under **Project Settings → API Keys**. `.env.local` is
+   ignored by git, so it never gets committed. Never paste keys into code,
+   commits, or Discord.
+
+3. Start the dev server:
+
+   ```bash
+   npm run dev
+   ```
+
+   Open http://localhost:3000. Pages reload as you save.
+
+## Useful commands
+
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Runs the site locally |
+| `npm run lint` | Checks code style and common mistakes |
+| `npm run typecheck` | Checks TypeScript types |
+| `npm run build` | Builds the site the same way Vercel does |
+
+Run lint, typecheck and build before opening a pull request. The same checks
+run automatically on every pull request.
+
+## How we work: branches and pull requests
+
+`main` is protected. Nobody pushes to it directly; all work goes through a
+pull request.
+
+1. Start from an up-to-date `main`:
+
+   ```bash
+   git checkout main
+   git pull
+   ```
+
+2. Create a branch named for the work:
+
+   ```bash
+   git checkout -b feature/services-page
+   ```
+
+   Prefixes: `feature/` for new work, `fix/` for bug fixes, `docs/` for
+   documentation, `test/` for tests.
+
+3. Commit as you go with short messages that say what changed, then push:
+
+   ```bash
+   git add .
+   git commit -m "Add services page layout"
+   git push -u origin feature/services-page
+   ```
+
+4. Open a pull request on GitHub into `main`. In the description, say what
+   changed and how to check it, and link the issue from the board.
+
+5. Wait for the **CI** check to pass. Vercel also posts a preview link on the
+   pull request, so you can see your change live before it merges.
+
+6. Merge once the check is green, then delete the branch.
+
+If `main` changed while you were working, run `git pull origin main` on your
+branch, fix any conflicts, and push again.
+
+## Project layout
+
+```
+src/app/        pages and routes (each folder is a URL)
+public/         static files such as images
+.github/        automated checks (CI)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environments
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Where | Branch | URL |
+| --- | --- | --- |
+| Production | `main` | Vercel production URL |
+| Preview | any pull request | link posted on the pull request |
+| Local | your branch | http://localhost:3000 |
