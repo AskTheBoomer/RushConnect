@@ -92,10 +92,37 @@ pull request.
 If `main` changed while you were working, run `git pull origin main` on your
 branch, fix any conflicts, and push again.
 
+## Database (Supabase)
+
+The schema and access rules live in `supabase/migrations/`, and placeholder
+data in `supabase/seed.sql`. To set up a fresh Supabase project, run them in
+order in **SQL Editor -> New query**: the migration first, then the seed.
+
+Access rules in short: visitors can read services, business info, page text,
+photos and published reviews. They can submit inquiries and reviews but can
+never read inquiries or unpublished reviews. Only the owner account can change
+anything.
+
+To confirm the rules hold, run:
+
+```bash
+npm run check:access
+```
+
+Every line should say PASS.
+
+## Owner login
+
+`/login` is the owner login and `/admin` is the owner portal. Logged-out
+visitors who open `/admin` are sent to `/login`. Only an account listed in the
+`admins` table can see portal data. The full portal is built in Sprint 3.
+
 ## Project layout
 
 ```
 src/app/        pages and routes (each folder is a URL)
+supabase/       database schema, access rules and seed data
+scripts/        helper scripts (access check)
 public/         static files such as images
 .github/        automated checks (CI)
 ```
