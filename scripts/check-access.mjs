@@ -23,12 +23,21 @@ function report(ok, label, detail) {
   console.log(`${ok ? "PASS" : "FAIL"}  ${label}${detail ? ` (${detail})` : ""}`);
 }
 
+// Rows a visitor can see. A permission error counts as 0 rows, since the
+// visitor is blocked from the table entirely.
 async function count(table, filter) {
   let query = supabase.from(table).select("*", { count: "exact", head: true });
   if (filter) query = filter(query);
-  const { count: n, error } = await query;
-  if (error) throw new Error(`${table}: ${error.message}`);
-  return n ?? 0;
+  const { count: n, error, status } = await query;
+  if (error && (status === 401 || status === 403)) return 0;
+  if (error) throw new Error(`${table}: ${error.message || `HTTP ${status}`}`);
+  if (n === null) {
+    throw new Error(
+      `${table}: no response (HTTP ${status}). Check that NEXT_PUBLIC_SUPABASE_URL ` +
+        "is just https://<project>.supabase.co with nothing after it.",
+    );
+  }
+  return n;
 }
 
 try {
