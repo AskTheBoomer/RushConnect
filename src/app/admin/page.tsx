@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "../login/actions";
@@ -24,6 +25,10 @@ export default function AdminPage() {
 }
 
 async function OwnerStatus() {
+  // Everything below depends on who is logged in, so tell Next.js to render
+  // it per request instead of trying to prerender it.
+  await connection();
+
   const supabase = await createClient();
   const {
     data: { user },
