@@ -25,6 +25,9 @@ export default function AdminLayout({ children }: LayoutProps<"/admin">) {
                 {link.label}
               </Link>
             ))}
+            <a href="/" target="_blank" rel="noopener noreferrer" className="hover:underline">
+              View website ↗
+            </a>
           </nav>
           <form action={logout}>
             <button type="submit" className="rounded border border-gray-300 px-3 py-1 text-sm">
