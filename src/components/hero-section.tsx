@@ -1,33 +1,34 @@
+import BrandLogo from "@/components/brand-logo";
 
 export default function HeroSection() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden bg-[#f4f0e7]"
+      className="relative overflow-hidden bg-[#f5f1f8]"
     >
       <div className="mx-auto grid min-h-[620px] max-w-7xl items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-2 lg:px-12 lg:py-28">
         <div className="relative z-10">
-          <p className="mb-6 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-[#a4824e]">
-            <span className="h-px w-9 bg-[#c5a46d]" />
-            Residential Cleaning Solutions
+          <p className="mb-6 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-[#7d52a3]">
+            <span className="h-px w-9 bg-[#a87bc7]" />
+            Residential and Small Business Cleaning
           </p>
 
-          <h1 className="max-w-xl text-4xl font-semibold leading-[1.15] tracking-tight text-[#172b46] sm:text-5xl lg:text-6xl">
+          <h1 className="max-w-xl text-4xl font-semibold leading-[1.15] tracking-tight text-[#1d1b22] sm:text-5xl lg:text-6xl">
             A cleaner space.
-            <span className="mt-2 block text-[#a4824e]">
+            <span className="mt-2 block text-[#7d52a3]">
               A more comfortable life.
             </span>
           </h1>
 
-          <p className="mt-7 max-w-lg text-base leading-8 text-[#687386] sm:text-lg">
-            Discover a thoughtful approach to home cleaning, with attention
-            to detail and care for the spaces that matter most to you.
+          <p className="mt-7 max-w-lg text-base leading-8 text-[#5f5a66] sm:text-lg">
+            Evelyn Rush Solutions is here to give your home or business the
+            refined look you have been longing for.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-4">
             <a
               href="#contact"
-              className="inline-flex items-center justify-center rounded-full bg-[#172b46] px-7 py-4 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#263f5e]"
+              className="inline-flex items-center justify-center rounded-full bg-[#1d1b22] px-7 py-4 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#3d3846]"
             >
               Request Information
               <span aria-hidden="true" className="ml-3">
@@ -37,62 +38,28 @@ export default function HeroSection() {
 
             <a
               href="#services"
-              className="inline-flex items-center justify-center rounded-full border border-[#172b46]/20 px-7 py-4 text-sm font-semibold text-[#172b46] transition-colors hover:border-[#c5a46d] hover:bg-white/60"
+              className="inline-flex items-center justify-center rounded-full border border-[#1d1b22]/20 px-7 py-4 text-sm font-semibold text-[#1d1b22] transition-colors hover:border-[#a87bc7] hover:bg-white/60"
             >
               Explore Services
             </a>
           </div>
 
           <div className="mt-12 flex items-center gap-3">
-            <span className="h-10 w-1 rounded-full bg-[#c5a46d]" />
-            <p className="text-sm leading-6 text-[#687386]">
+            <span className="h-10 w-1 rounded-full bg-[#a87bc7]" />
+            <p className="text-sm leading-6 text-[#5f5a66]">
               Care, consistency, and attention to detail.
             </p>
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-lg">
-          <div className="absolute -right-5 -top-5 h-32 w-32 rounded-full bg-[#c5a46d]/20 blur-2xl" />
-
-          <div className="relative overflow-hidden rounded-[2rem] bg-[#172b46] p-8 shadow-2xl sm:p-12">
-            <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-white/10" />
-            <div className="absolute -bottom-24 -left-20 h-64 w-64 rounded-full border border-[#c5a46d]/30" />
-
-            <div className="relative flex min-h-[340px] flex-col justify-between sm:min-h-[390px]">
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#c5a46d]">
-                  Evelyn Rush Solutions
-                </span>
-
-                <h2 className="mt-8 max-w-xs text-3xl font-medium leading-tight text-white sm:text-4xl">
-                  Thoughtful care for every space.
-                </h2>
-              </div>
-
-              <div className="mt-12 border-t border-white/20 pt-6">
-                <p className="text-sm leading-7 text-white/70">
-                  Your home deserves attention, care, and a cleaning
-                  experience centered on your needs.
-                </p>
-
-                <div className="mt-6 flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-[#c5a46d]" />
-                  <span className="text-xs font-medium uppercase tracking-widest text-[#c5a46d]">
-                    Comfort begins with care
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute -bottom-5 -left-5 hidden rounded-2xl border border-[#e8e2d7] bg-white px-6 py-4 shadow-lg sm:block">
-            <p className="text-xs font-medium uppercase tracking-widest text-[#a4824e]">
-              Our approach
-            </p>
-            <p className="mt-1 text-sm font-semibold text-[#172b46]">
-              Care in every detail
-            </p>
-          </div>
+        <div className="relative mx-auto flex w-full max-w-lg flex-col items-center rounded-[2rem] border border-[#e9e4ee] bg-white px-4 py-14 text-center shadow-xl sm:px-6 sm:py-16">
+          <BrandLogo size="lg" />
+          <p className="mt-8 font-script text-3xl text-[#1d1b22] sm:text-5xl lg:text-4xl xl:text-5xl">
+            The Elements of Speed
+          </p>
+          <p className="mt-6 font-display text-sm uppercase tracking-[0.22em] text-[#5f5a66]">
+            Evelyn Rush Solutions
+          </p>
         </div>
       </div>
     </section>

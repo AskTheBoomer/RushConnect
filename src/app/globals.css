@@ -1,14 +1,14 @@
-
 @import "tailwindcss";
 
 :root {
-  --background: #faf8f3;
-  --foreground: #202b3c;
-  --navy: #172b46;
-  --navy-light: #263f5e;
-  --gold: #c5a46d;
-  --cream: #f4f0e7;
-  --muted: #687386;
+  /* Colors from the Evelyn Rush Solutions business card */
+  --background: #fcfbfd;
+  --foreground: #1d1b22;
+  --ink: #1d1b22;
+  --lavender: #a87bc7;
+  --seafoam: #9dd3cb;
+  --coral: #e28a8a;
+  --muted: #5f5a66;
   --white: #ffffff;
 }
 
@@ -17,6 +17,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-marcellus);
+  --font-script: var(--font-pinyon);
 }
 
 html {
@@ -31,8 +33,8 @@ body {
 }
 
 ::selection {
-  background: var(--gold);
-  color: var(--navy);
+  background: var(--lavender);
+  color: var(--ink);
 }
 
 button,
@@ -48,8 +50,14 @@ a:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--lavender);
   outline-offset: 3px;
+}
+
+h1,
+h2 {
+  font-family: var(--font-marcellus), Georgia, serif;
+  font-weight: 400;
 }
 
 img {

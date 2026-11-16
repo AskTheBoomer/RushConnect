@@ -1,20 +1,21 @@
 -- Rush Connect: placeholder data for development.
 -- Run after 001_initial_schema.sql (SQL Editor -> New query -> paste -> Run).
 -- Each block only inserts into an empty table, so running it twice is safe.
--- Contact details are placeholders until Evelyn confirms the real ones.
+-- Business details and services come from Evelyn's business card; descriptions,
+-- hours, and service areas are still placeholders until she confirms them.
 
 insert into public.business_info
   (id, name, tagline, owner_name, phone, email, hours, service_areas, instagram_url)
 values (
   1,
   'Evelyn Rush Solutions',
-  'Residential cleaning you can count on.',
+  'The Elements of Speed',
   'Evelyn Rush',
-  '(555) 555-0123',
-  'hello@example.com',
+  '(612) 581-0794',
+  'EvelynRushSolutions@gmail.com',
   'Monday - Friday, 8:00 AM - 5:00 PM',
   array['Placeholder City', 'North Placeholder', 'Sample Heights'],
-  'https://www.instagram.com/'
+  'https://www.instagram.com/EvelynRushSolutions'
 )
 on conflict (id) do nothing;
 
@@ -31,18 +32,15 @@ where not exists (select 1 from public.page_content);
 
 insert into public.services (name, description, highlights, sort_order)
 select * from (values
-  ('Standard Clean',
-   'Regular upkeep to keep your home fresh and comfortable, ideal for weekly or bi-weekly visits.',
-   array['Dusting and wiping surfaces', 'Vacuuming and mopping floors', 'Kitchen and bathroom refresh'], 1),
-  ('Deep Clean',
-   'A top-to-bottom clean that reaches the spots routine cleaning misses. Great for a first visit or a seasonal reset.',
-   array['Baseboards, doors, and trim', 'Inside the microwave and on top of cabinets', 'Detailed scrubbing of tile and fixtures'], 2),
-  ('Move-In / Move-Out',
-   'Get a place ready for its next chapter, whether you are handing back keys or settling in.',
-   array['Inside cabinets, drawers, and closets', 'Appliance interiors on request', 'Empty-home, wall-to-wall attention'], 3),
-  ('Organization',
-   'Declutter and organize closets, pantries, and living spaces so everything has a place.',
-   array['Closets, pantries, and cabinets', 'Sorting and simple labeling', 'Systems that are easy to maintain'], 4)
+  ('Residential and Small Business Cleaning',
+   'Regular or one-time cleaning for homes and small businesses, so every space has the refined look you have been longing for.',
+   array['Homes and apartments', 'Small offices and storefronts', 'Weekly, bi-weekly, or one-time visits'], 1),
+  ('Rug and Upholstery Cleaning',
+   'Careful cleaning for rugs, sofas, and chairs to lift dirt and refresh the fabrics you live with every day.',
+   array['Area rugs', 'Sofas and chairs', 'Spot and stain treatment'], 2),
+  ('Household Packing and Organization',
+   'Help packing for a move or getting organized at home, so everything has a place.',
+   array['Packing for a move', 'Closets, pantries, and cabinets', 'Simple systems that are easy to keep up'], 3)
 ) as v(name, description, highlights, sort_order)
 where not exists (select 1 from public.services);
 
@@ -50,13 +48,13 @@ where not exists (select 1 from public.services);
 -- and that the public only sees published reviews (TC-07).
 insert into public.reviews (name, rating, service, comment, status, owner_response)
 select * from (values
-  ('Jordan M.', 5, 'Deep Clean',
+  ('Jordan M.', 5, 'Residential and Small Business Cleaning',
    'Evelyn was on time, friendly, and incredibly thorough. My kitchen has not looked this good since we moved in.',
    'published', 'Thank you, Jordan! See you next month.'),
-  ('Priya S.', 5, 'Move-In / Move-Out',
+  ('Priya S.', 5, 'Residential and Small Business Cleaning',
    'She made our move-out so much less stressful, and we got our full deposit back.',
    'published', null),
-  ('Dana K.', 5, 'Standard Clean',
+  ('Dana K.', 5, 'Residential and Small Business Cleaning',
    'Reliable every single week. I come home to a spotless house.',
    'pending', null),
   ('best deals 4 u', 1, 'Other',
@@ -67,10 +65,10 @@ where not exists (select 1 from public.reviews);
 
 insert into public.inquiries (name, email, phone, service, message, status, notes)
 select * from (values
-  ('Alex Rivera', 'alex@example.com', '(555) 555-0142', 'Deep Clean',
+  ('Alex Rivera', 'alex@example.com', '(555) 555-0142', 'Residential and Small Business Cleaning',
    'We have a 3-bedroom house and would like a deep clean before the holidays. Are you available in mid-November?',
    'new', ''),
-  ('Sam Chen', 'sam@example.com', null, 'Move-In / Move-Out',
+  ('Sam Chen', 'sam@example.com', null, 'Household Packing and Organization',
    'Moving out of a 1-bedroom apartment at the end of the month. Looking for a quote.',
    'contacted', 'Sent quote by email; waiting to hear back.')
 ) as v(name, email, phone, service, message, status, notes)
@@ -78,8 +76,8 @@ where not exists (select 1 from public.inquiries);
 
 insert into public.photos (title, service, sort_order)
 select * from (values
-  ('Kitchen deep clean', 'Deep Clean', 1),
-  ('Bathroom refresh', 'Standard Clean', 2),
-  ('Pantry organization', 'Organization', 3)
+  ('Kitchen deep clean', 'Residential and Small Business Cleaning', 1),
+  ('Bathroom refresh', 'Residential and Small Business Cleaning', 2),
+  ('Pantry organization', 'Household Packing and Organization', 3)
 ) as v(title, service, sort_order)
 where not exists (select 1 from public.photos);
