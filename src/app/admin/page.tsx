@@ -23,7 +23,6 @@ export default function DashboardPage() {
 
 async function Dashboard() {
   const owner = await getOwner();
-  if (!owner) return <NotOwner />;
   const { supabase, email } = owner;
 
   // Counts plus the newest items that need a reply or a decision (FR-04.2).
@@ -44,6 +43,8 @@ async function Dashboard() {
     supabase.from("services").select("*", { count: "exact", head: true }),
     supabase.from("business_info").select("phone, email, updated_at").maybeSingle(),
   ]);
+  // Started in getOwner, so it ran at the same time as the queries above.
+  if (!(await owner.isAdmin)) return <NotOwner />;
 
   const ratings = (published.data ?? []).map((review) => review.rating as number);
   const average = ratings.length

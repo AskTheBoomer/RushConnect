@@ -4,25 +4,23 @@ import { createClient } from "@/lib/supabase/server";
 
 // Shared check for every owner portal page.
 // - Not logged in: send to /login (second check after src/proxy.ts).
-// - Logged in but not in the admins table: returns null, so the page shows no data.
-// - Owner: returns a Supabase client that row level security lets read everything.
+// - Logged in: returns a Supabase client plus `isAdmin`, which the page awaits
+//   together with its own queries so the admin check doesn't add a separate wait.
+//   Row level security already returns nothing to non-owners, and the page shows
+//   <NotOwner /> when isAdmin is false.
 export async function getOwner() {
   // Depends on who is logged in, so render per request (not prerendered).
   await connection();
 
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
-  if (!user) {
+  // Verified locally against the project's public signing key; no Auth server call.
+  const { data } = await supabase.auth.getClaims();
+  if (!data?.claims) {
     redirect("/login");
   }
 
-  const { data: isAdmin } = await supabase.rpc("is_admin");
-  if (!isAdmin) {
-    return null;
-  }
+  const isAdmin = supabase.rpc("is_admin").then(({ data: result }) => result === true);
 
-  return { supabase, email: user.email ?? "" };
+  return { supabase, isAdmin, email: (data.claims.email as string | undefined) ?? "" };
 }

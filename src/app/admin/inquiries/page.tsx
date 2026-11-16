@@ -38,7 +38,6 @@ export default function InquiriesPage({ searchParams }: PageProps<"/admin/inquir
 
 async function InquiryList({ searchParams }: { searchParams: PageProps<"/admin/inquiries">["searchParams"] }) {
   const owner = await getOwner();
-  if (!owner) return <NotOwner />;
 
   const requested = (await searchParams).status;
   const filter: Filter = filters.includes(requested as Filter) ? (requested as Filter) : "all";
@@ -48,6 +47,8 @@ async function InquiryList({ searchParams }: { searchParams: PageProps<"/admin/i
     .from("inquiries")
     .select("*")
     .order("created_at", { ascending: false });
+  // Started in getOwner, so it ran at the same time as the queries above.
+  if (!(await owner.isAdmin)) return <NotOwner />;
   const all = (data ?? []) as Inquiry[];
   const inquiries = filter === "all" ? all : all.filter((inquiry) => inquiry.status === filter);
 

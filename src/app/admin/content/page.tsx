@@ -36,7 +36,6 @@ export default function ContentPage() {
 
 async function ContentOverview() {
   const owner = await getOwner();
-  if (!owner) return <NotOwner />;
   const { supabase } = owner;
 
   // Everything the owner will be able to edit without code changes (FR-05).
@@ -46,6 +45,8 @@ async function ContentOverview() {
     supabase.from("page_content").select("*").order("page").order("sort_order"),
     supabase.from("photos").select("*").order("sort_order"),
   ]);
+  // Started in getOwner, so it ran at the same time as the queries above.
+  if (!(await owner.isAdmin)) return <NotOwner />;
   const business = info.data as BusinessInfo | null;
 
   return (
