@@ -39,13 +39,14 @@ export default function ReviewsPage() {
 
 async function ReviewQueue() {
   const owner = await getOwner();
-  if (!owner) return <NotOwner />;
 
   // All reviews, including pending and rejected ones the public can't see (FR-03.2).
   const { data } = await owner.supabase
     .from("reviews")
     .select("*")
     .order("created_at", { ascending: false });
+  // Started in getOwner, so it ran at the same time as the queries above.
+  if (!(await owner.isAdmin)) return <NotOwner />;
   const reviews = (data ?? []) as Review[];
 
   const published = reviews.filter((review) => review.status === "published");

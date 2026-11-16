@@ -30,9 +30,11 @@ export async function proxy(request: NextRequest) {
     },
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // getClaims checks the login token's signature locally with the project's
+  // public key (cached), instead of asking the Supabase Auth server on every
+  // page load like getUser does. It still refreshes an expiring session.
+  const { data } = await supabase.auth.getClaims();
+  const user = data?.claims;
 
   const { pathname } = request.nextUrl;
 
