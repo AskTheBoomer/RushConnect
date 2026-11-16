@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getOwner } from "@/lib/owner";
+import { formatDate, stars } from "../format";
 import { NotOwner } from "../not-owner";
 
 export const metadata: Metadata = {
@@ -47,8 +48,18 @@ async function ReviewQueue() {
     .order("created_at", { ascending: false });
   const reviews = (data ?? []) as Review[];
 
+  const published = reviews.filter((review) => review.status === "published");
+  const average = published.length
+    ? (published.reduce((sum, review) => sum + review.rating, 0) / published.length).toFixed(1)
+    : null;
+
   return (
     <div className="flex flex-col gap-8">
+      <p className="text-sm text-gray-600">
+        {average
+          ? `Customers see ${published.length} published review${published.length === 1 ? "" : "s"}, averaging ${average} out of 5 stars.`
+          : "No reviews are published yet."}
+      </p>
       {groups.map((group) => {
         const items = reviews.filter((review) => review.status === group.status);
         return (
@@ -63,12 +74,16 @@ async function ReviewQueue() {
                 {items.map((review) => (
                   <li key={review.id} className="rounded border border-gray-200 p-4">
                     <p className="font-semibold">
-                      {"★".repeat(review.rating)}
-                      {"☆".repeat(5 - review.rating)} · {review.name} · {review.service}
+                      {stars(review.rating)} · {review.name}
                     </p>
-                    <p className="mt-1">{review.comment}</p>
+                    <p className="text-sm text-gray-600">
+                      {review.service} · submitted {formatDate(review.created_at)}
+                    </p>
+                    <p className="mt-2">{review.comment}</p>
                     {review.owner_response && (
-                      <p className="mt-2 text-sm text-gray-600">Your response: {review.owner_response}</p>
+                      <p className="mt-2 rounded bg-gray-50 p-3 text-sm">
+                        <span className="font-semibold">Your response:</span> {review.owner_response}
+                      </p>
                     )}
                     <div className="mt-3 flex gap-2">
                       {group.actions.map((action) => (
