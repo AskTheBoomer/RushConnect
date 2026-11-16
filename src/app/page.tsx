@@ -24,7 +24,7 @@ export default function Home() {
               id="services"
               className="bg-white px-5 py-24 text-center"
             >
-              <p className="text-sm text-[#687386]">
+              <p className="text-sm text-[#5f5a66]">
                 Loading services...
               </p>
             </section>
@@ -37,9 +37,9 @@ export default function Home() {
           fallback={
             <section
               id="reviews"
-              className="bg-[#f4f0e7] px-5 py-24 text-center"
+              className="bg-[#f5f1f8] px-5 py-24 text-center"
             >
-              <p className="text-sm text-[#687386]">
+              <p className="text-sm text-[#5f5a66]">
                 Loading customer reviews...
               </p>
             </section>
