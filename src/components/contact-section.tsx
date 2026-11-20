@@ -2,12 +2,15 @@
 "use client";
 
 import { useActionState } from "react";
-import { submitInquiry } from "@/app/actions";
+import { submitInquiry, type InquiryField, type InquiryState } from "@/app/actions";
+import TurnstileWidget from "./turnstile-widget";
 
-const initialState = {
+const initialState: InquiryState = {
   success: false,
   message: "",
 };
+
+const invalidBorder = "border-red-400 focus:border-red-500";
 
 export default function ContactSection() {
   const [state, formAction, isPending] = useActionState(
@@ -66,13 +69,17 @@ export default function ContactSection() {
               <input
                 id="name"
                 name="name"
+                aria-invalid={state.errors?.name ? true : undefined}
+                aria-describedby={state.errors?.name ? "name-error" : undefined}
                 type="text"
                 required
                 maxLength={100}
                 autoComplete="name"
+                defaultValue={state.values?.name}
                 placeholder="Enter your full name"
-                className="w-full rounded-xl border border-[#e9e4ee] bg-white px-4 py-3.5 text-sm text-[#1d1b22] placeholder:text-[#9a95a0] focus:border-[#a87bc7] focus:outline-none"
+                className={`w-full rounded-xl border border-[#e9e4ee] bg-white px-4 py-3.5 text-sm text-[#1d1b22] placeholder:text-[#9a95a0] focus:border-[#a87bc7] focus:outline-none ${state.errors?.name ? invalidBorder : ""}`}
               />
+              <FieldError field="name" errors={state.errors} />
             </div>
 
             <div>
@@ -85,13 +92,17 @@ export default function ContactSection() {
               <input
                 id="email"
                 name="email"
+                aria-invalid={state.errors?.email ? true : undefined}
+                aria-describedby={state.errors?.email ? "email-error" : undefined}
                 type="email"
                 required
                 maxLength={254}
                 autoComplete="email"
+                defaultValue={state.values?.email}
                 placeholder="you@example.com"
-                className="w-full rounded-xl border border-[#e9e4ee] bg-white px-4 py-3.5 text-sm text-[#1d1b22] placeholder:text-[#9a95a0] focus:border-[#a87bc7] focus:outline-none"
+                className={`w-full rounded-xl border border-[#e9e4ee] bg-white px-4 py-3.5 text-sm text-[#1d1b22] placeholder:text-[#9a95a0] focus:border-[#a87bc7] focus:outline-none ${state.errors?.email ? invalidBorder : ""}`}
               />
+              <FieldError field="email" errors={state.errors} />
             </div>
 
             <div>
@@ -107,12 +118,16 @@ export default function ContactSection() {
               <input
                 id="phone"
                 name="phone"
+                aria-invalid={state.errors?.phone ? true : undefined}
+                aria-describedby={state.errors?.phone ? "phone-error" : undefined}
                 type="tel"
                 maxLength={30}
                 autoComplete="tel"
+                defaultValue={state.values?.phone}
                 placeholder="Enter your phone number"
-                className="w-full rounded-xl border border-[#e9e4ee] bg-white px-4 py-3.5 text-sm text-[#1d1b22] placeholder:text-[#9a95a0] focus:border-[#a87bc7] focus:outline-none"
+                className={`w-full rounded-xl border border-[#e9e4ee] bg-white px-4 py-3.5 text-sm text-[#1d1b22] placeholder:text-[#9a95a0] focus:border-[#a87bc7] focus:outline-none ${state.errors?.phone ? invalidBorder : ""}`}
               />
+              <FieldError field="phone" errors={state.errors} />
             </div>
 
             <div>
@@ -123,10 +138,15 @@ export default function ContactSection() {
                 Subject
               </label>
               <select
+                // A select only reads defaultValue on first render, so remount it
+                // to show the subject the visitor picked after an error.
+                key={state.values?.service ?? "default"}
                 id="service"
                 name="service"
-                defaultValue="General inquiry"
-                className="w-full rounded-xl border border-[#e9e4ee] bg-white px-4 py-3.5 text-sm text-[#1d1b22] focus:border-[#a87bc7] focus:outline-none"
+                aria-invalid={state.errors?.service ? true : undefined}
+                aria-describedby={state.errors?.service ? "service-error" : undefined}
+                defaultValue={state.values?.service ?? "General inquiry"}
+                className={`w-full rounded-xl border border-[#e9e4ee] bg-white px-4 py-3.5 text-sm text-[#1d1b22] focus:border-[#a87bc7] focus:outline-none ${state.errors?.service ? invalidBorder : ""}`}
               >
                 <option value="General inquiry">General inquiry</option>
                 <option value="Packing & Unpacking">Packing &amp; unpacking</option>
@@ -135,6 +155,7 @@ export default function ContactSection() {
                 <option value="Organization">Organization</option>
                 <option value="Other">Other</option>
               </select>
+              <FieldError field="service" errors={state.errors} />
             </div>
 
             <div>
@@ -147,14 +168,20 @@ export default function ContactSection() {
               <textarea
                 id="message"
                 name="message"
+                aria-invalid={state.errors?.message ? true : undefined}
+                aria-describedby={state.errors?.message ? "message-error" : undefined}
                 required
                 minLength={1}
                 maxLength={5000}
                 rows={5}
+                defaultValue={state.values?.message}
                 placeholder="How can we help you?"
-                className="w-full resize-y rounded-xl border border-[#e9e4ee] bg-white px-4 py-3.5 text-sm text-[#1d1b22] placeholder:text-[#9a95a0] focus:border-[#a87bc7] focus:outline-none"
+                className={`w-full resize-y rounded-xl border border-[#e9e4ee] bg-white px-4 py-3.5 text-sm text-[#1d1b22] placeholder:text-[#9a95a0] focus:border-[#a87bc7] focus:outline-none ${state.errors?.message ? invalidBorder : ""}`}
               />
+              <FieldError field="message" errors={state.errors} />
             </div>
+
+            <TurnstileWidget resetKey={state} />
 
             {state.message && (
               <div
@@ -190,5 +217,21 @@ export default function ContactSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+function FieldError({
+  field,
+  errors,
+}: {
+  field: InquiryField;
+  errors: InquiryState["errors"];
+}) {
+  const message = errors?.[field];
+  if (!message) return null;
+  return (
+    <p id={`${field}-error`} className="mt-2 text-sm text-red-700">
+      {message}
+    </p>
   );
 }
