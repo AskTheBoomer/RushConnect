@@ -64,7 +64,7 @@ export default function SiteFooter() {
             href="/login"
             className="transition-colors hover:text-[#a87bc7]"
           >
-            Owner Portal
+            Admin Portal
           </a>
         </div>
       </div>

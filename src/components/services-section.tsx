@@ -30,17 +30,6 @@ export default async function ServicesSection() {
           </p>
         </div>
 
-        <div className="mt-12 border border-[#e9e4ee] bg-[#fcfbfd] px-5 py-4 text-center sm:px-8">
-          <p className="text-sm leading-6 text-[#5f5a66]">
-            <span className="font-semibold text-[#1d1b22]">
-              Prototype notice:
-            </span>{" "}
-            Service descriptions and details displayed here are sample
-            content and must be confirmed by Evelyn Rush Solutions
-            before the website goes live.
-          </p>
-        </div>
-
         {error ? (
           <div className="mt-12 rounded-2xl border border-[#e9e4ee] bg-[#fcfbfd] px-6 py-12 text-center">
             <h3 className="text-lg font-semibold text-[#1d1b22]">

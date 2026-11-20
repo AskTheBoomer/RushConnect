@@ -6,7 +6,7 @@ import { daysAgo, formatDate, stars } from "./format";
 import { NotOwner } from "./not-owner";
 
 export const metadata: Metadata = {
-  title: "Owner portal | Rush Connect",
+  title: "Admin portal | Rush Connect",
   robots: { index: false },
 };
 
