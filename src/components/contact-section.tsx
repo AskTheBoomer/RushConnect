@@ -129,15 +129,10 @@ export default function ContactSection() {
                 className="w-full rounded-xl border border-[#e9e4ee] bg-white px-4 py-3.5 text-sm text-[#1d1b22] focus:border-[#a87bc7] focus:outline-none"
               >
                 <option value="General inquiry">General inquiry</option>
-                <option value="Residential and Small Business Cleaning">
-                  Residential and small business cleaning
-                </option>
-                <option value="Rug and Upholstery Cleaning">
-                  Rug and upholstery cleaning
-                </option>
-                <option value="Household Packing and Organization">
-                  Household packing and organization
-                </option>
+                <option value="Packing & Unpacking">Packing &amp; unpacking</option>
+                <option value="Laundry and Ironing">Laundry and ironing</option>
+                <option value="Cleaning">Cleaning</option>
+                <option value="Organization">Organization</option>
                 <option value="Other">Other</option>
               </select>
             </div>

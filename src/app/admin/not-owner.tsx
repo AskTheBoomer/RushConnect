@@ -2,8 +2,8 @@
 export function NotOwner() {
   return (
     <p>
-      This account is not the owner account, so it can&apos;t see portal data. Log out and sign in
-      with the owner account.
+      This account is not an admin account, so it can&apos;t see portal data. Log out and sign in
+      with the admin account.
     </p>
   );
 }
