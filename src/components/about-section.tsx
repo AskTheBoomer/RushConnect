@@ -34,7 +34,6 @@ export default function AboutSection() {
       className="bg-[#faf8f3] py-24 sm:py-28"
     >
       <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-2 lg:gap-20 lg:px-12">
-
         {/* About content */}
         <div>
           <p className="mb-5 text-xs font-semibold uppercase tracking-[0.22em] text-[#a4824e]">
@@ -123,7 +122,6 @@ export default function AboutSection() {
             className="pointer-events-none absolute -bottom-4 -right-3 -z-10 h-32 w-32 rounded-full bg-[#c5a46d]/20 blur-2xl"
           />
         </div>
-
       </div>
     </section>
   );
