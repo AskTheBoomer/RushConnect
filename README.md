@@ -98,6 +98,10 @@ The schema and access rules live in `supabase/migrations/`, and placeholder
 data in `supabase/seed.sql`. To set up a fresh Supabase project, run them in
 order in **SQL Editor -> New query**: the migration first, then the seed.
 
+One-time content changes for a database that is already set up go in
+`supabase/updates/`. A fresh project doesn't need them, because the seed is
+kept up to date.
+
 Access rules in short: visitors can read services, business info, page text,
 photos and published reviews. They can submit inquiries and reviews but can
 never read inquiries or unpublished reviews. Only the owner account can change

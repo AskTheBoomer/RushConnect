@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import BrandLogo from "@/components/brand-logo";
 
 const navigationLinks = [
   { label: "Home", href: "#home" },
@@ -36,35 +37,32 @@ export default function SiteHeader() {
   }, [menuOpen]);
 
   const linkClasses =
-    "text-sm font-medium text-[#526074] transition-colors duration-200 hover:text-[#b18d55] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a4824e] focus-visible:ring-offset-4 rounded-sm";
+    "text-sm font-medium text-[#526074] transition-colors duration-200 hover:text-[#b18d55] rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a4824e] focus-visible:ring-offset-4";
 
   const buttonClasses =
     "inline-flex items-center justify-center rounded-full bg-[#172b46] px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#263f5e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a4824e] focus-visible:ring-offset-2";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#e8e2d7] bg-[#faf8f3]/95 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-[#e9e4ee] bg-[#fcfbfd]/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
 
         {/* Brand */}
         <a
           href="#home"
           onClick={closeMenu}
-          className="flex flex-col rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a4824e] focus-visible:ring-offset-4"
+          className="flex items-center gap-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a4824e] focus-visible:ring-offset-4"
           aria-label="Evelyn Rush Solutions home"
         >
-          <span className="text-xl font-bold tracking-tight text-[#172b46] sm:text-2xl">
-            Evelyn Rush
-          </span>
-
-          <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#b18d55]">
-            Solutions
+          <BrandLogo />
+          <span className="hidden font-display text-sm uppercase tracking-[0.18em] text-[#1d1b22] sm:block">
+            Evelyn Rush Solutions
           </span>
         </a>
 
         {/* Desktop Navigation */}
         <nav
           aria-label="Main navigation"
-          className="hidden items-center gap-6 lg:gap-8 md:flex"
+          className="hidden items-center gap-6 md:flex lg:gap-8"
         >
           {navigationLinks.map((link) => (
             <a
@@ -122,38 +120,34 @@ export default function SiteHeader() {
       </div>
 
       {/* Mobile Navigation */}
-      <nav
-        id="mobile-navigation"
-        aria-label="Mobile navigation"
-        aria-hidden={!menuOpen}
-        className={`border-t border-[#e8e2d7] bg-[#faf8f3] px-5 py-5 md:hidden ${
-          menuOpen ? "block" : "hidden"
-        }`}
-      >
-        <div className="mx-auto flex max-w-7xl flex-col gap-4">
+      {menuOpen && (
+        <nav
+          id="mobile-navigation"
+          aria-label="Mobile navigation"
+          className="border-t border-[#e8e2d7] bg-[#faf8f3] px-5 py-5 md:hidden"
+        >
+          <div className="mx-auto flex max-w-7xl flex-col gap-4">
+            {navigationLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={closeMenu}
+                className="rounded-sm py-2 text-sm font-medium text-[#172b46] transition-colors hover:text-[#b18d55] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a4824e]"
+              >
+                {link.label}
+              </a>
+            ))}
 
-          {navigationLinks.map((link) => (
             <a
-              key={link.href}
-              href={link.href}
+              href="#contact"
               onClick={closeMenu}
-              tabIndex={menuOpen ? 0 : -1}
-              className="rounded-sm py-2 text-sm font-medium text-[#172b46] transition-colors hover:text-[#b18d55] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a4824e]"
+              className={`mt-2 w-full ${buttonClasses}`}
             >
-              {link.label}
+              Get in Touch
             </a>
-          ))}
-
-          <a
-            href="#contact"
-            onClick={closeMenu}
-            tabIndex={menuOpen ? 0 : -1}
-            className={`mt-2 w-full ${buttonClasses}`}
-          >
-            Get in Touch
-          </a>
-        </div>
-      </nav>
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

@@ -18,13 +18,16 @@ export default function AdminLayout({ children }: LayoutProps<"/admin">) {
       </p>
       <header className="border-b border-gray-200">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-          <span className="font-semibold">Rush Connect · Owner Portal</span>
+          <span className="font-semibold">Rush Connect · Admin Portal</span>
           <nav className="flex flex-wrap gap-4 text-sm">
             {links.map((link) => (
               <Link key={link.href} href={link.href} className="hover:underline">
                 {link.label}
               </Link>
             ))}
+            <a href="/" target="_blank" rel="noopener noreferrer" className="hover:underline">
+              View website ↗
+            </a>
           </nav>
           <form action={logout}>
             <button type="submit" className="rounded border border-gray-300 px-3 py-1 text-sm">

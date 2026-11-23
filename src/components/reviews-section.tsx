@@ -17,7 +17,6 @@ export default async function ReviewsSection() {
       className="bg-[#f4f0e7] py-24 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
-
         {/* Section heading */}
         <div className="mx-auto max-w-2xl text-center">
           <p className="mb-5 text-xs font-semibold uppercase tracking-[0.22em] text-[#a4824e]">
@@ -35,8 +34,8 @@ export default async function ReviewsSection() {
           </h2>
 
           <p className="mt-6 text-base leading-8 text-[#687386]">
-            Customer feedback helps me understand what matters most
-            and continually improve the quality of my services.
+            Customer feedback helps us understand what matters most
+            and continually improve the quality of our services.
           </p>
         </div>
 
@@ -51,9 +50,7 @@ export default async function ReviewsSection() {
               Please check back later for customer feedback.
             </p>
           </div>
-
         ) : reviews && reviews.length > 0 ? (
-
           /* Published customer reviews */
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {reviews.map((review, index) => {
@@ -102,7 +99,7 @@ export default async function ReviewsSection() {
                   {review.owner_response && (
                     <div className="mt-5 rounded-xl bg-[#faf8f3] p-4">
                       <p className="text-xs font-semibold uppercase tracking-wider text-[#a4824e]">
-                        Evelyn&apos;s Response
+                        Business Response
                       </p>
 
                       <p className="mt-2 text-sm leading-6 text-[#687386]">
@@ -114,9 +111,7 @@ export default async function ReviewsSection() {
               );
             })}
           </div>
-
         ) : (
-
           /* Empty reviews state */
           <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-[#e8e2d7] bg-white px-6 py-12 text-center">
             <div
@@ -136,7 +131,6 @@ export default async function ReviewsSection() {
             </p>
           </div>
         )}
-
       </div>
     </section>
   );

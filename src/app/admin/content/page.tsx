@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getOwner } from "@/lib/owner";
+import { formatDate } from "../format";
 import { NotOwner } from "../not-owner";
 
 export const metadata: Metadata = {
@@ -15,9 +16,12 @@ type BusinessInfo = {
   email: string;
   hours: string;
   service_areas: string[];
+  instagram_url: string;
+  updated_at: string;
 };
 type Service = { id: string; name: string; description: string; highlights: string[] };
-type PageText = { page: string; section: string; body: string };
+type PageText = { page: string; section: string; body: string; updated_at: string };
+type Photo = { id: string; title: string; service: string; before_path: string | null; after_path: string | null };
 
 export default function ContentPage() {
   return (
@@ -32,15 +36,17 @@ export default function ContentPage() {
 
 async function ContentOverview() {
   const owner = await getOwner();
-  if (!owner) return <NotOwner />;
   const { supabase } = owner;
 
   // Everything the owner will be able to edit without code changes (FR-05).
-  const [info, services, pageText] = await Promise.all([
+  const [info, services, pageText, photos] = await Promise.all([
     supabase.from("business_info").select("*").single(),
     supabase.from("services").select("*").order("sort_order"),
     supabase.from("page_content").select("*").order("page").order("sort_order"),
+    supabase.from("photos").select("*").order("sort_order"),
   ]);
+  // Started in getOwner, so it ran at the same time as the queries above.
+  if (!(await owner.isAdmin)) return <NotOwner />;
   const business = info.data as BusinessInfo | null;
 
   return (
@@ -61,6 +67,10 @@ async function ContentOverview() {
             <dd>{business.hours}</dd>
             <dt className="text-gray-600">Service areas</dt>
             <dd>{business.service_areas.join(", ")}</dd>
+            <dt className="text-gray-600">Instagram</dt>
+            <dd>{business.instagram_url || "Not set"}</dd>
+            <dt className="text-gray-600">Last updated</dt>
+            <dd>{formatDate(business.updated_at)}</dd>
           </dl>
         ) : (
           <p className="text-sm text-gray-600">No business information yet.</p>
@@ -70,9 +80,11 @@ async function ContentOverview() {
       <section>
         <SectionHeader title="Services" action="Add service" />
         <ul className="flex flex-col gap-3">
-          {((services.data ?? []) as Service[]).map((service) => (
+          {((services.data ?? []) as Service[]).map((service, index) => (
             <li key={service.id} className="rounded border border-gray-200 p-4">
-              <p className="font-semibold">{service.name}</p>
+              <p className="font-semibold">
+                {index + 1}. {service.name}
+              </p>
               <p className="text-sm">{service.description}</p>
               <ul className="mt-1 list-disc pl-5 text-sm text-gray-600">
                 {service.highlights.map((highlight) => (
@@ -93,9 +105,30 @@ async function ContentOverview() {
                 {text.page} page · {text.section}
               </p>
               <p className="text-sm">{text.body}</p>
+              <p className="mt-1 text-xs text-gray-600">Last updated {formatDate(text.updated_at)}</p>
             </li>
           ))}
         </ul>
+      </section>
+
+      <section>
+        <SectionHeader title="Before and after photos" action="Add photos" />
+        {photos.data?.length ? (
+          <ul className="flex flex-col gap-3">
+            {(photos.data as Photo[]).map((photo) => (
+              <li key={photo.id} className="rounded border border-gray-200 p-4 text-sm">
+                <p className="font-semibold">{photo.title}</p>
+                <p className="text-gray-600">{photo.service || "No service set"}</p>
+                <p className="mt-1">
+                  Before: {photo.before_path ? "uploaded" : "not uploaded yet"} · After:{" "}
+                  {photo.after_path ? "uploaded" : "not uploaded yet"}
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-gray-600">No photos yet.</p>
+        )}
       </section>
     </div>
   );

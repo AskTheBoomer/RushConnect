@@ -30,17 +30,19 @@ export default function ServicesSection() {
   return (
     <section
       id="services"
+      aria-labelledby="services-heading"
       className="bg-white py-24 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
-
-        {/* Section heading */}
         <div className="mx-auto max-w-3xl text-center">
           <p className="mb-5 text-xs font-semibold uppercase tracking-[0.22em] text-[#a4824e]">
             What Is Offered
           </p>
 
-          <h2 className="text-3xl font-semibold leading-tight tracking-tight text-[#172b46] sm:text-4xl lg:text-5xl">
+          <h2
+            id="services-heading"
+            className="text-3xl font-semibold leading-tight tracking-tight text-[#172b46] sm:text-4xl lg:text-5xl"
+          >
             Cleaning solutions for{" "}
             <span className="block text-[#a4824e]">
               the spaces that matter.
@@ -53,7 +55,6 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        {/* Services grid */}
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {services.map((service) => (
             <article
@@ -77,14 +78,16 @@ export default function ServicesSection() {
                 className="mt-7 inline-flex items-center text-sm font-semibold text-[#172b46] transition-colors group-hover:text-[#a4824e]"
               >
                 Make an inquiry
-                <span className="ml-2 transition-transform group-hover:translate-x-1" aria-hidden="true">
+                <span
+                  className="ml-2 transition-transform group-hover:translate-x-1"
+                  aria-hidden="true"
+                >
                   →
                 </span>
               </a>
             </article>
           ))}
         </div>
-
       </div>
     </section>
   );

@@ -1,4 +1,7 @@
 
+import { Suspense } from "react";
+import { createClient } from "@/lib/supabase/server";
+
 const footerLinks = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
@@ -11,10 +14,8 @@ export default function SiteFooter() {
   return (
     <footer className="bg-[#172b46] text-white">
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-16 lg:px-12">
-
         {/* Main Footer Content */}
         <div className="grid gap-12 md:grid-cols-2 md:gap-16">
-
           {/* Brand Information */}
           <div>
             <a
@@ -36,6 +37,11 @@ export default function SiteFooter() {
               bring comfort, care, and attention to detail
               to your space.
             </p>
+
+            {/* Dynamic Business Contact Information */}
+            <Suspense fallback={null}>
+              <ContactDetails />
+            </Suspense>
           </div>
 
           {/* Footer Navigation */}
@@ -71,10 +77,69 @@ export default function SiteFooter() {
             href="/login"
             className="w-fit rounded-sm transition-colors duration-200 hover:text-[#c5a46d] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c5a46d] focus-visible:ring-offset-4 focus-visible:ring-offset-[#172b46]"
           >
-            Owner Portal
+            Admin Portal
           </a>
         </div>
       </div>
     </footer>
+  );
+}
+
+// Phone, email, and Instagram come from business_info,
+// allowing the owner to update contact information through the portal.
+async function ContactDetails() {
+  const supabase = await createClient();
+
+  const { data: info } = await supabase
+    .from("business_info")
+    .select("phone, email, instagram_url")
+    .eq("id", 1)
+    .maybeSingle();
+
+  if (!info) return null;
+
+  const instagramHandle = info.instagram_url
+    ? info.instagram_url
+        .replace(/^https?:\/\/(www\.)?instagram\.com\//i, "")
+        .replace(/\/$/, "")
+    : "";
+
+  return (
+    <ul className="mt-6 space-y-2 text-sm text-white/70">
+      {info.phone && (
+        <li>
+          <a
+            href={`tel:${info.phone.replace(/[^\d+]/g, "")}`}
+            className="transition-colors hover:text-[#c5a46d]"
+          >
+            {info.phone}
+          </a>
+        </li>
+      )}
+
+      {info.email && (
+        <li>
+          <a
+            href={`mailto:${info.email}`}
+            className="transition-colors hover:text-[#c5a46d]"
+          >
+            {info.email}
+          </a>
+        </li>
+      )}
+
+      {instagramHandle && (
+        <li>
+          <a
+            href={info.instagram_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-[#c5a46d]"
+          >
+            Instagram: @{instagramHandle}
+          </a>
+        </li>
+      )}
+    </ul>
   );
 }
