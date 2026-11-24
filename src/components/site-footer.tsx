@@ -1,5 +1,6 @@
 
 import { Suspense } from "react";
+import { connection } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 const footerLinks = [
@@ -88,6 +89,8 @@ export default function SiteFooter() {
 // Phone, email, and Instagram come from business_info,
 // allowing the owner to update contact information through the portal.
 async function ContactDetails() {
+  await connection();
+
   const supabase = await createClient();
 
   const { data: info } = await supabase
