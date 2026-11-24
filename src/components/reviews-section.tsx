@@ -1,7 +1,10 @@
 
+import { connection } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function ReviewsSection() {
+  await connection();
+
   const supabase = await createClient();
 
   const { data: reviews, error } = await supabase

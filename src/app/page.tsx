@@ -6,6 +6,7 @@ import SiteFooter from "@/components/site-footer";
 import HeroSection from "@/components/hero-section";
 import AboutSection from "@/components/about-section";
 import ServicesSection from "@/components/services-section";
+import PhotoGallery from "@/components/photo-gallery";
 import ReviewsSection from "@/components/reviews-section";
 import ContactSection from "@/components/contact-section";
 
@@ -15,9 +16,13 @@ export default function Home() {
       <SiteHeader />
 
       <main>
+        {/* 1. Hero */}
         <HeroSection />
+
+        {/* 2. About */}
         <AboutSection />
 
+        {/* 3. Services */}
         <Suspense
           fallback={
             <section
@@ -33,6 +38,23 @@ export default function Home() {
           <ServicesSection />
         </Suspense>
 
+        {/* 4. Our Work - Before and After Photo Gallery */}
+        <Suspense
+          fallback={
+            <section
+              id="gallery"
+              className="bg-white px-5 py-24 text-center"
+            >
+              <p className="text-sm text-[#5f5a66]">
+                Loading gallery...
+              </p>
+            </section>
+          }
+        >
+          <PhotoGallery />
+        </Suspense>
+
+        {/* 5. Customer Reviews */}
         <Suspense
           fallback={
             <section
@@ -48,6 +70,7 @@ export default function Home() {
           <ReviewsSection />
         </Suspense>
 
+        {/* 6. Contact */}
         <ContactSection />
       </main>
 
